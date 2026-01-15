@@ -9,5 +9,11 @@ document.getElementById("dash-btn").addEventListener("click",()=>{
     router.navigate("dashboard")
 })
 document.getElementById("prod-btn").addEventListener("click",()=>{
-    router.navigate("about")
+    router.navigate("products")
+})
+document.getElementById("mision-btn").addEventListener("click",()=>{
+    router.navigate("mision")
+})
+document.getElementById("vision-btn").addEventListener("click",()=>{
+    router.navigate("vision")
 })
