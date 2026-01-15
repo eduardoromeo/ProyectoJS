@@ -11,7 +11,15 @@ body {
   display: flex;
   min-height: 100vh;
 }
-
+/*encabezado*/
+/* Encabezado (header) */
+.site-header {
+  background-image: url(header.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 40vh;
+}
 /* Sidebar */
 .sidebar {
   width: 220px;
