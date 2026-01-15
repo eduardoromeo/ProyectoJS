@@ -8,7 +8,7 @@ export function renderMisionPage(root){
             combinando técnica, creatividad y cercanía con cada cliente.
         </p>
         <p>
-            Buscamos siempre la excelencia técnica —iluminación, encuadre y edición— junto con una experiencia cercana y personalizada,
+            Buscamos siempre la excelencia técnica, iluminación, encuadre y edición, junto con una experiencia cercana y personalizada,
             para que cada proyecto refleje la identidad y expectativas de nuestros clientes.
         </p>
     `
