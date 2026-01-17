@@ -7,12 +7,10 @@ import { renderVisionPage } from "./pages/vision.js";
 const routes ={
     dashboard: renderDashboardPage,
     products: renderProductsPage,
-    about: renderAboutPage
+    about: renderAboutPage,
+    mision: renderMisionPage,
+    vision: renderVisionPage
 }
-
-// Añadir las nuevas rutas
-routes.mision = renderMisionPage;
-routes.vision = renderVisionPage;
 
 export class Router{
     constructor(root){

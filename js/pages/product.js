@@ -1,37 +1,26 @@
-import { productsSeed } from "../data/product.js";
+import { getCategories, filterByCategory } from "../services/products.services.js"
 
 export function renderProductsPage(root){
-    const rows = productsSeed.map(p => `
-        <tr>
-            <td>${p.id}</td>
-            <td>${p.name}</td>
-            <td>${p.category}</td>
-            <td>${p.Video}</td>
-            <td>${p.Fotografia}</td>
-            <td>${p.Mosaico}</td>
-            <td>$${p.Precio}</td>
-            <td>${p.Disponible ? 'Sí' : 'No'}</td>
-        </tr>
-    `).join('');
-
+    const categories = getCategories()
     root.innerHTML = `
-        <h1>Productos</h1>
-        <table class="products-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Categoría</th>
-                    <th>Video</th>
-                    <th>Fotografía</th>
-                    <th>Mosaico</th>
-                    <th>Precio</th>
-                    <th>Disponible</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rows}
-            </tbody>
-        </table>
-    `
+        <h2>Productos</h2>
+        <select id="cat">
+         ${categories.map((c)=>`<option value="${c}">${c}</option>`)}
+        </select>
+        <div id="list" style="margin-top:12px;"></div>
+    `;
+    const list = root.querySelector("#list")
+    const select = root.querySelector("#cat")
+
+    function draw(category) {
+        const items = filterByCategory(category);
+        list.innerHTML = `
+        <ul>
+            ${items.map((p)=> `<li>${p.name} - ${p.category} -vendidos: ${p.sold}</li>`).join("")}
+        </ul>
+        `
+
+    }
+   draw("Todos")
+   select.addEventListener("change", (e)=> draw(e.target.value))
 }
