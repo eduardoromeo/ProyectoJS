@@ -21,9 +21,13 @@ export function renderProductsPage(root){
                 <input id="pPrice" type="number" min="0" placeholder="Ej: 450" style="width: 100%;padding: 8px;">
             </div>    
             <div>
-                <label for="">Reservado</label>
-                <input id="pDisponible" type="number" min="0" placeholder="Ej: Reservado" style="width: 100%;padding: 8px;">
-            </div>    
+                <label for="">Reservados</label>
+                <input id="pReservados" type="number" min="0" placeholder="Ej: 5" style="width: 100%;padding: 8px;">
+            </div>
+            <div>
+                <label for="">Disponible</label>
+                <input id="pDisponible" type="number" min="0" placeholder="Ej: Disponible" style="width: 100%;padding: 8px;">
+            </div>     
         </div>
         <div style="margin-top: 10px; display: flex;gap: 10px; align-items: center;">
             <button id="btnPrimary" style="padding: 10px 12px; cursor: pointer;" >Agregar</button>
@@ -127,8 +131,8 @@ export function renderProductsPage(root){
                     <th>Nombre</th>
                     <th>Categoria</th>
                     <th>Precio</th>
-                    <th>Disponible</th>
                     <th>Reservados</th>
+                    <th>Disponible</th>
                     <th>Acciones</th>
                  </tr>   
             </thead>
