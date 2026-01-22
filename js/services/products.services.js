@@ -68,3 +68,30 @@ export function isDuplicateName(name) {
     const normalized = name.trim().toLowerCase();
     return products.some((p)=>p.name.trim().toLowerCase() === normalized)
 }
+export function addSale(id) {
+    const products = getAllProducts();
+    const idx = products.findIndex(p=> p.id === id)
+    if(idx === -1) return null
+
+    products[idx].sold = (products[idx].sold ?? 0) + 1;
+    writeJSON(KEY,products)
+    return products[idx]
+}
+
+export function getTotalProducts() {
+    return getAllProducts().length;
+}
+
+export function getTotalSales() {
+    return getAllProducts().reduce((acc,p)=> acc+(p.sold ?? 0),0)
+}
+
+export function getBestSeller() {
+    const products = getAllProducts();
+    if(products.length==0) return null;
+    return products.reduce((best,p)=>{
+        const bestSold = best.sold ?? 0
+        const currSold = p.sold ?? 0
+        return currSold > bestSold ? p: best
+    },products[0])
+}
