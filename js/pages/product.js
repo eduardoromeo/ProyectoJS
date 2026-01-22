@@ -177,6 +177,7 @@ export function renderProductsPage(root){
                             <button class="btnEdit" data-id="${p.id}" style="cursor: pointer; margin-right: 5px;">Editar</button>
                             <button class="btnEditInline" data-id="${p.id}" style="cursor: pointer; display:none; margin-right: 5px; background-color: #4CAF50; color: white;">Guardar</button>
                             <button class="btnCancelInline" data-id="${p.id}" style="cursor: pointer; display:none; margin-right: 5px;">Cancelar</button>
+                            <button class="btnPrint" data-id="${p.id}" style="cursor: pointer; margin-right: 5px; background-color: #2196F3; color: white;">📄 PDF</button>
                             <button class="btnDelete" data-id="${p.id}" style="cursor: pointer; background-color: #f44336; color: white;">Eliminar</button>
                         </td>
                     </tr>
@@ -286,6 +287,20 @@ export function renderProductsPage(root){
             })
         })
 
+        //Imprimir PDF
+        root.querySelectorAll(".btnPrint").forEach(btn => {
+            btn.addEventListener("click", ()=>{
+                clearMessage()
+                const id = btn.dataset.id
+                const product = getProductById(id)
+                if (!product) {
+                    setMessage("Producto no encontrado", true)
+                    return
+                }
+                downloadProductPDF(product)
+            })
+        })
+
         //Eliminar 
         root.querySelectorAll(".btnDelete").forEach(btn => {
             btn.addEventListener("click", ()=>{
@@ -365,4 +380,75 @@ export function renderProductsPage(root){
        }) 
        setFormModeAdd()
        draw("Todos")
+
+       // Función para descargar PDF del producto
+       function downloadProductPDF(product) {
+           // Crear un canvas para capturar el contenido
+           const canvas = document.createElement('canvas')
+           const ctx = canvas.getContext('2d')
+           
+           canvas.width = 800
+           canvas.height = 600
+           
+           // Fondo blanco
+           ctx.fillStyle = '#ffffff'
+           ctx.fillRect(0, 0, canvas.width, canvas.height)
+           
+           // Bordes
+           ctx.strokeStyle = '#333333'
+           ctx.lineWidth = 2
+           ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20)
+           
+           // Título
+           ctx.fillStyle = '#2196F3'
+           ctx.font = 'bold 28px Arial'
+           ctx.fillText('📋 PAQUETE: ' + product.name, 40, 60)
+           
+           // Línea separadora
+           ctx.strokeStyle = '#2196F3'
+           ctx.lineWidth = 2
+           ctx.beginPath()
+           ctx.moveTo(40, 80)
+           ctx.lineTo(canvas.width - 40, 80)
+           ctx.stroke()
+           
+           // Información del producto
+           ctx.fillStyle = '#333333'
+           ctx.font = '16px Arial'
+           let y = 130
+           const lineHeight = 40
+           
+           ctx.fillText('Categoría: ' + product.category, 40, y)
+           y += lineHeight
+           
+           ctx.fillText('Precio: Bs ' + product.price, 40, y)
+           y += lineHeight
+           
+           ctx.fillText('Reservados: ' + (product.sold ?? 0), 40, y)
+           y += lineHeight
+           
+           ctx.fillText('Disponible: ' + (product.disponible ?? 0), 40, y)
+           y += lineHeight
+           
+           ctx.fillText('Vendidos: ' + (product.sold ?? 0), 40, y)
+           y += lineHeight
+           
+           ctx.fillText('Estado: ' + (product.active ? 'Activo' : 'Inactivo'), 40, y)
+           y += lineHeight
+           
+           ctx.fillText('Creado: ' + (product.createdAt ?? 'N/A'), 40, y)
+           
+           // Pie de página
+           ctx.fillStyle = '#666666'
+           ctx.font = '12px Arial'
+           ctx.fillText('EMT Producciones - Generado: ' + new Date().toLocaleString('es-BO'), 40, canvas.height - 30)
+           
+           // Convertir canvas a imagen y descargar como PDF
+           const link = document.createElement('a')
+           link.href = canvas.toDataURL('image/png')
+           link.download = `${product.name.replace(/\\s+/g, '_')}_${new Date().getTime()}.png`
+           link.click()
+           
+           setMessage('PDF descargado: ' + product.name)
+       }
     }
