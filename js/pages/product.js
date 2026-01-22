@@ -58,6 +58,7 @@ export function renderProductsPage(root){
     const pName = root.querySelector("#pName")
     const pCategory = root.querySelector("#pCategory")
     const pPrice = root.querySelector("#pPrice")
+    const pReservados = root.querySelector("#pReservados")
     const pDisponible = root.querySelector("#pDisponible")
     const btnPrimary = root.querySelector("#btnPrimary")
     const btnCancel = root.querySelector("#btnCancel")
@@ -89,6 +90,7 @@ export function renderProductsPage(root){
         pName.value = product.name ?? "";
         pCategory.value = product.category ?? "";
         pPrice.value = String(product.price ?? 0)
+        pReservados.value = String(product.sold ?? 0)
         pDisponible.value = String(product.disponible ?? 0)
         pName.focus()
     }
@@ -97,6 +99,7 @@ export function renderProductsPage(root){
         pName.value = "";
         pCategory.value = "";
         pPrice.value = "";
+        pReservados.value = "";
         pDisponible.value = "";
         pName.focus()
     }
@@ -105,14 +108,16 @@ export function renderProductsPage(root){
         const name = pName.value.trim();
         const category = pCategory.value.trim();
         const price = Number(pPrice.value)
+        const reservados = Number(pReservados.value)
         const disponible = Number(pDisponible.value)
 
         if(!name) return {ok: false, message: "Nombre requerido"}
         if(!category) return {ok: false, message: "Categoria requerida"}
         if(Number.isNaN(price) || price <0) return {ok: false, message: "Precio inválido"}
+        if(Number.isNaN(reservados) || reservados <0) return {ok: false, message: "Reservados inválido"}
         if(Number.isNaN(disponible) || disponible <0) return {ok: false, message: "Disponible inválido"}
     
-        return {ok:true,name,category,price,disponible}
+        return {ok:true,name,category,price,reservados,disponible}
     }
 
     function draw(category) {
@@ -139,16 +144,22 @@ export function renderProductsPage(root){
             <tbody>
                 ${items.map(
             (p) => `
-                    <tr>
+                    <tr data-id="${p.id}">
                         <td>${p.name}</td>
                         <td>${p.category}</td>
                         <td>${p.price}</td>
-                        <td>${p.disponible}</td>
-                        <td>${p.sold ?? 0}</td>
                         <td>
-                        <button class="btnEdit" data-id="${p.id}" style="cursor: pointer;">Editar</button>
-                            <button class="btnDelete" data-id="${p.id}" style="cursor: pointer;">Eliminar</button>
-
+                            <span class="display-reservados">${p.sold ?? 0}</span>
+                            <input type="number" class="input-reservados" value="${p.sold ?? 0}" min="0" style="display:none; width:60px; padding:4px;">
+                        </td>
+                        <td>
+                            <span class="display-disponible">${p.disponible ?? 0}</span>
+                            <input type="number" class="input-disponible" value="${p.disponible ?? 0}" min="0" style="display:none; width:60px; padding:4px;">
+                        </td>
+                        <td>
+                            <button class="btnEdit" data-id="${p.id}" style="cursor: pointer; margin-right: 5px;">Editar</button>
+                            <button class="btnEditInline" data-id="${p.id}" style="cursor: pointer; display:none; margin-right: 5px; background-color: #4CAF50; color: white;">Guardar</button>
+                            <button class="btnDelete" data-id="${p.id}" style="cursor: pointer; background-color: #f44336; color: white;">Eliminar</button>
                         </td>
                     </tr>
                     `
@@ -156,7 +167,8 @@ export function renderProductsPage(root){
             </tbody>
     </table>
         `;
-        // Editar
+        
+        // Editar formulario principal
         root.querySelectorAll(".btnEdit").forEach((btn)=>{
                btn.addEventListener("click",()=>{
                 clearMessage();
@@ -168,6 +180,82 @@ export function renderProductsPage(root){
                 }
                 setFormModeEdit(product)
                }) 
+        })
+
+        // Editar inline - Mostrar inputs
+        root.querySelectorAll(".btnEdit").forEach((btn)=>{
+            btn.addEventListener("click",()=>{
+                const tr = btn.closest("tr")
+                const displayReservados = tr.querySelector(".display-reservados")
+                const inputReservados = tr.querySelector(".input-reservados")
+                const displayDisponible = tr.querySelector(".display-disponible")
+                const inputDisponible = tr.querySelector(".input-disponible")
+                const btnEdit = tr.querySelector(".btnEdit")
+                const btnEditInline = tr.querySelector(".btnEditInline")
+                const btnCancelInline = tr.querySelector(".btnCancelInline")
+                
+                displayReservados.style.display = "none"
+                inputReservados.style.display = "inline-block"
+                displayDisponible.style.display = "none"
+                inputDisponible.style.display = "inline-block"
+                btnEdit.style.display = "none"
+                btnEditInline.style.display = "inline-block"
+                btnCancelInline.style.display = "inline-block"
+            })
+        })
+
+        // Guardar cambios inline
+        root.querySelectorAll(".btnEditInline").forEach((btn)=>{
+            btn.addEventListener("click",()=>{
+                clearMessage()
+                const id = btn.dataset.id
+                const tr = btn.closest("tr")
+                const inputReservados = tr.querySelector(".input-reservados")
+                const inputDisponible = tr.querySelector(".input-disponible")
+                
+                const reservados = Number(inputReservados.value)
+                const disponible = Number(inputDisponible.value)
+                
+                if(Number.isNaN(reservados) || reservados < 0 || Number.isNaN(disponible) || disponible < 0){
+                    setMessage("Valores inválidos", true)
+                    return
+                }
+                
+                const updated = updateProduct(id, {
+                    sold: reservados,
+                    disponible: disponible
+                })
+                
+                if(updated){
+                    setMessage("Cambios guardados 👌")
+                    draw(select.value)
+                } else {
+                    setMessage("No se pudo guardar los cambios", true)
+                }
+            })
+        })
+
+        // Cancelar edición inline
+        root.querySelectorAll(".btnCancelInline").forEach((btn)=>{
+            btn.addEventListener("click",()=>{
+                clearMessage()
+                const tr = btn.closest("tr")
+                const displayReservados = tr.querySelector(".display-reservados")
+                const inputReservados = tr.querySelector(".input-reservados")
+                const displayDisponible = tr.querySelector(".display-disponible")
+                const inputDisponible = tr.querySelector(".input-disponible")
+                const btnEdit = tr.querySelector(".btnEdit")
+                const btnEditInline = tr.querySelector(".btnEditInline")
+                const btnCancelInline = tr.querySelector(".btnCancelInline")
+                
+                displayReservados.style.display = "inline"
+                inputReservados.style.display = "none"
+                displayDisponible.style.display = "inline"
+                inputDisponible.style.display = "none"
+                btnEdit.style.display = "inline-block"
+                btnEditInline.style.display = "none"
+                btnCancelInline.style.display = "none"
+            })
         })
 
         //Eliminar 
@@ -204,13 +292,13 @@ export function renderProductsPage(root){
                 name: v.name,
                 category: v.category,
                 price : v.price,
+                sold: v.reservados,
                 disponible: v.disponible,
-                sold:0,
                 active: true,
                 createdAt : new Date().toISOString().slice(0,10)
             }
             addProduct(newProduct)
-            setMessage("Producto agrgado 👌")    
+            setMessage("Producto agregado 👌")    
             clearForm()
             draw(select.value)
             return
@@ -229,6 +317,7 @@ export function renderProductsPage(root){
             name: v.name,
             category: v.category,
             price: v.price,
+            sold: v.reservados,
             disponible: v.disponible
         });
         if(!updated) return setMessage("No se pudo guardar cambios",true)
