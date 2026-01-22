@@ -78,7 +78,8 @@ export function renderDashboardPage(root){
             <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);">
                 <div style="opacity: .8; font-size: 13px; margin-bottom: 8px;">⭐ Más Vendido</div>
                 <div style="font-size: 18px; font-weight: bold;">${bestSeller ? bestSeller.name : 'Sin datos'}</div>
-                <div style="font-size: 14px; opacity: .9;">${bestSeller ? `${bestSeller.sold ?? 0} ventas` : ''}</div>
+                <div style="font-size: 13px; opacity: .85; margin-bottom: 6px;">${bestSeller ? bestSeller.category : ''}</div>
+                <div style="font-size: 14px; opacity: .9;">${bestSeller ? `${bestSeller.sold ?? 0} contratos` : ''}</div>
             </div>
         </div>
         
@@ -153,7 +154,7 @@ function drawBarChart(canvas, top) {
         return;
     }
 
-    const padding = 40;
+    const padding = 50;
     const chartW = canvas.width - padding * 2;
     const chartH = canvas.height - padding * 2;
     const values = top.map(p => p.sold ?? 0);
@@ -180,7 +181,7 @@ function drawBarChart(canvas, top) {
 
     top.forEach((p, i) => {
         const v = p.sold ?? 0;
-        const barH = (v / max) * (chartH - 40);
+        const barH = (v / max) * (chartH - 60);
         const x = padding + i * (barW + barGap);
         const y = padding + chartH - barH;
 
@@ -199,10 +200,16 @@ function drawBarChart(canvas, top) {
         ctx.textAlign = 'center';
         ctx.fillText(String(v), x + barW / 2, y - 8);
 
-        // Etiqueta del producto
-        ctx.fillStyle = '#555';
-        ctx.font = '11px Arial';
-        const label = (p.name || '').slice(0, 10);
-        ctx.fillText(label, x + barW / 2, padding + chartH + 18);
+        // Nombre del producto
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 11px Arial';
+        const name = (p.name || '').slice(0, 12);
+        ctx.fillText(name, x + barW / 2, padding + chartH + 18);
+
+        // Categoría del producto
+        ctx.fillStyle = '#666';
+        ctx.font = '9px Arial';
+        const category = (p.category || '').slice(0, 12);
+        ctx.fillText(category, x + barW / 2, padding + chartH + 32);
     });
 }

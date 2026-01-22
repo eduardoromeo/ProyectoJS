@@ -32,7 +32,7 @@ export function renderProductsPage(root){
                 <input id="pDisponible" type="number" min="0" placeholder="Ej: Disponible" style="width: 100%;padding: 8px;">
             </div>
             <div>
-                <label for="">Vendidos</label>
+                <label for="">Contratos</label>
                 <input id="pVendidos" type="number" min="0" placeholder="Ej: 0" style="width: 100%;padding: 8px;">
             </div>     
         </div>
@@ -127,7 +127,7 @@ export function renderProductsPage(root){
         if(Number.isNaN(price) || price <0) return {ok: false, message: "Precio inválido"}
         if(Number.isNaN(reservados) || reservados <0) return {ok: false, message: "Reservados inválido"}
         if(Number.isNaN(disponible) || disponible <0) return {ok: false, message: "Disponible inválido"}
-        if(Number.isNaN(vendidos) || vendidos <0) return {ok: false, message: "Vendidos inválido"}
+        if(Number.isNaN(vendidos) || vendidos <0) return {ok: false, message: "Contratos inválido"}
     
         return {ok:true,name,category,price,reservados,disponible,vendidos}
     }
@@ -150,7 +150,7 @@ export function renderProductsPage(root){
                     <th>Precio</th>
                     <th>Reservados</th>
                     <th>Disponible</th>
-                    <th>Vendidos</th>
+                    <th>Contratos</th>
                     <th>Acciones</th>
                  </tr>   
             </thead>
@@ -175,8 +175,6 @@ export function renderProductsPage(root){
                         </td>
                         <td>
                             <button class="btnEdit" data-id="${p.id}" style="cursor: pointer; margin-right: 5px;">Editar</button>
-                            <button class="btnEditInline" data-id="${p.id}" style="cursor: pointer; display:none; margin-right: 5px; background-color: #4CAF50; color: white;">Guardar</button>
-                            <button class="btnCancelInline" data-id="${p.id}" style="cursor: pointer; display:none; margin-right: 5px;">Cancelar</button>
                             <button class="btnPrint" data-id="${p.id}" style="cursor: pointer; margin-right: 5px; background-color: #2196F3; color: white;">📄 PDF</button>
                             <button class="btnDelete" data-id="${p.id}" style="cursor: pointer; background-color: #f44336; color: white;">Eliminar</button>
                         </td>
@@ -212,8 +210,6 @@ export function renderProductsPage(root){
                 const displayVendidos = tr.querySelector(".display-vendidos")
                 const inputVendidos = tr.querySelector(".input-vendidos")
                 const btnEdit = tr.querySelector(".btnEdit")
-                const btnEditInline = tr.querySelector(".btnEditInline")
-                const btnCancelInline = tr.querySelector(".btnCancelInline")
                 
                 displayReservados.style.display = "none"
                 inputReservados.style.display = "inline-block"
@@ -222,68 +218,6 @@ export function renderProductsPage(root){
                 displayVendidos.style.display = "none"
                 inputVendidos.style.display = "inline-block"
                 btnEdit.style.display = "none"
-                btnEditInline.style.display = "inline-block"
-                btnCancelInline.style.display = "inline-block"
-            })
-        })
-
-        // Guardar cambios inline
-        root.querySelectorAll(".btnEditInline").forEach((btn)=>{
-            btn.addEventListener("click",()=>{
-                clearMessage()
-                const id = btn.dataset.id
-                const tr = btn.closest("tr")
-                const inputReservados = tr.querySelector(".input-reservados")
-                const inputDisponible = tr.querySelector(".input-disponible")
-                const inputVendidos = tr.querySelector(".input-vendidos")
-                
-                const reservados = Number(inputReservados.value)
-                const disponible = Number(inputDisponible.value)
-                const vendidos = Number(inputVendidos.value)
-                
-                if(Number.isNaN(reservados) || reservados < 0 || Number.isNaN(disponible) || disponible < 0 || Number.isNaN(vendidos) || vendidos < 0){
-                    setMessage("Valores inválidos", true)
-                    return
-                }
-                
-                const updated = updateProduct(id, {
-                    sold: vendidos,
-                    disponible: disponible
-                })
-                
-                if(updated){
-                    setMessage("Cambios guardados 👌")
-                    draw(select.value)
-                } else {
-                    setMessage("No se pudo guardar los cambios", true)
-                }
-            })
-        })
-
-        // Cancelar edición inline
-        root.querySelectorAll(".btnCancelInline").forEach((btn)=>{
-            btn.addEventListener("click",()=>{
-                clearMessage()
-                const tr = btn.closest("tr")
-                const displayReservados = tr.querySelector(".display-reservados")
-                const inputReservados = tr.querySelector(".input-reservados")
-                const displayDisponible = tr.querySelector(".display-disponible")
-                const inputDisponible = tr.querySelector(".input-disponible")
-                const displayVendidos = tr.querySelector(".display-vendidos")
-                const inputVendidos = tr.querySelector(".input-vendidos")
-                const btnEdit = tr.querySelector(".btnEdit")
-                const btnEditInline = tr.querySelector(".btnEditInline")
-                const btnCancelInline = tr.querySelector(".btnCancelInline")
-                
-                displayReservados.style.display = "inline"
-                inputReservados.style.display = "none"
-                displayDisponible.style.display = "inline"
-                inputDisponible.style.display = "none"
-                displayVendidos.style.display = "inline"
-                inputVendidos.style.display = "none"
-                btnEdit.style.display = "inline-block"
-                btnEditInline.style.display = "none"
-                btnCancelInline.style.display = "none"
             })
         })
 
@@ -373,6 +307,7 @@ export function renderProductsPage(root){
        btnCancel.addEventListener("click",()=>{
         clearMessage()
         setFormModeAdd()
+        draw(select.value)
        })
        //filtro
        select.addEventListener("change",(e)=>{
