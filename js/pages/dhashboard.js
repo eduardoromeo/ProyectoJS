@@ -72,7 +72,7 @@ export function renderDashboardPage(root){
                 <div style="font-size: 28px; font-weight: bold;">${totalProducts}</div>
             </div>
             <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(245, 87, 108, 0.3);">
-                <div style="opacity: .8; font-size: 13px; margin-bottom: 8px;">🎯 Total Ventas</div>
+                <div style="opacity: .8; font-size: 13px; margin-bottom: 8px;">🎯 Total Contratos</div>
                 <div style="font-size: 28px; font-weight: bold;">${totalSales}</div>
             </div>
             <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);">
