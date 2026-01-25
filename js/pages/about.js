@@ -1,6 +1,6 @@
 export function renderAboutPage(root){
     root.innerHTML = `
-        <h1>Acerca de EMT Producciones Audio Visuales</h1>
+        <h1>Acerca de EMT Producciones</h1>
         <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
             <p>En EMT Producciones Audio Visuales, nos enorgullece ser líderes en el mundo del audiovisual desde hace más de una década. Fundada en 2010, nuestra empresa ha crecido con la pasión por capturar momentos inolvidables y transformar ideas en experiencias visuales impactantes. ¿Por qué somos la mejor opción? Porque combinamos años de experiencia con tecnología de vanguardia y un equipo dedicado que entiende que cada proyecto es único.</p>
         </div>
@@ -8,6 +8,16 @@ export function renderAboutPage(root){
         <h2>Nuestra Historia</h2>
         <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
             <p>Todo comenzó en 2010, cuando un grupo de visionarios decidió unir fuerzas para ofrecer servicios audiovisuales de alta calidad en un mercado que demandaba innovación. Desde entonces, hemos trabajado en cientos de proyectos, desde bodas íntimas hasta eventos corporativos masivos, siempre priorizando la excelencia y la creatividad. Nuestro compromiso con la calidad nos ha permitido evolucionar con las tendencias, incorporando las últimas herramientas y técnicas para garantizar resultados que superan las expectativas.</p>
+        </div>
+        
+        <h2>Misión</h2>
+        <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
+            <p>Nuestra misión es proporcionar servicios audiovisuales excepcionales que capturen la esencia de cada momento, ayudando a nuestros clientes a crear recuerdos duraderos y comunicar sus mensajes de manera impactante. Nos comprometemos a innovar constantemente, mantener los más altos estándares de calidad y fomentar relaciones sólidas con nuestros clientes.</p>
+        </div>
+        
+        <h2>Visión</h2>
+        <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
+            <p>Ser la empresa líder en producciones audiovisuales a nivel nacional e internacional, reconocida por nuestra creatividad, tecnología avanzada y capacidad para transformar ideas en experiencias inolvidables. Aspiramos a expandir nuestro alcance, inspirar a la industria y contribuir al crecimiento de nuestros clientes a través de soluciones audiovisuales innovadoras.</p>
         </div>
         
         <h2>¿Por Qué Elegirnos?</h2>
@@ -27,7 +37,7 @@ export function renderAboutPage(root){
         </div>
         
         <div style="border-left: 5px solid red; padding-left: 15px;">
-            <p>En EMT Producciones Audio Visuales, no solo producimos contenido; creamos historias que perduran. Si buscas calidad, confianza y resultados excepcionales, somos la empresa que estabas esperando. ¡Contáctanos hoy y descubre por qué somos la mejor en lo que hacemos!</p>
+            <p>En EMT Producciones Audio Visuales, no solo producimos contenido; creamos historias que perduran. Si buscas calidad, confianza y resultados excepcionales, somos la empresa que estabas esperando. ¡Contáctanos hoy en info@emtproducciones.com o visita nuestro sitio web en www.emtproducciones.com para descubrir por qué somos la mejor en lo que hacemos!</p>
         </div>
     `;
 }

@@ -3,8 +3,10 @@ import { renderProductsPage } from "./pages/product.js";
 import { renderAboutPage } from "./pages/about.js";
 import { renderMisionPage } from "./pages/mision.js";
 import { renderVisionPage } from "./pages/vision.js";
+import { renderHomePage } from "./pages/home.js";
 
 const routes ={
+    home: renderHomePage,
     dashboard: renderDashboardPage,
     products: renderProductsPage,
     about: renderAboutPage,

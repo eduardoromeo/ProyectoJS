@@ -1,61 +1,9 @@
-import { galleryData } from "../data/gallery.js";
 import {
     getTopSold,
     getTotalProducts,
     getTotalSales,
     getBestSeller,
 } from "../services/products.services.js";
-
-function renderGallery(root, category) {
-    const images = galleryData[category] || [];
-    const container = root.querySelector('#gallery-container');
-    
-    if (images.length === 0) {
-        container.innerHTML = '<p>No hay imágenes en esta categoría</p>';
-        return;
-    }
-
-    let currentIndex = 0;
-
-    const slidesHTML = `
-        <div class="slides-wrapper">
-            <div class="slide">
-                <img src="${images[currentIndex].src}" alt="${images[currentIndex].title}" class="slide-image">
-                <p class="slide-title">${images[currentIndex].title}</p>
-            </div>
-            <div class="slides-controls">
-                <button class="prev-btn">❮ Anterior</button>
-                <span class="slide-counter"><span class="current-slide">1</span> / <span class="total-slides">${images.length}</span></span>
-                <button class="next-btn">Siguiente ❯</button>
-            </div>
-        </div>
-    `;
-
-    container.innerHTML = slidesHTML;
-
-    const prevBtn = container.querySelector('.prev-btn');
-    const nextBtn = container.querySelector('.next-btn');
-    const slideImage = container.querySelector('.slide-image');
-    const slideTitle = container.querySelector('.slide-title');
-    const currentSlideSpan = container.querySelector('.current-slide');
-
-    function updateSlide() {
-        slideImage.src = images[currentIndex].src;
-        slideImage.alt = images[currentIndex].title;
-        slideTitle.textContent = images[currentIndex].title;
-        currentSlideSpan.textContent = currentIndex + 1;
-    }
-
-    prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        updateSlide();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % images.length;
-        updateSlide();
-    });
-}
 
 export function renderDashboardPage(root){
     const totalProducts = getTotalProducts();
@@ -65,7 +13,7 @@ export function renderDashboardPage(root){
 
 
     root.innerHTML = `
-        <h1 style="color: #333; margin-bottom: 20px;">📊 Dashboard - Galería</h1>
+        <h1 style="color: #333; margin-bottom: 20px;">📊 Dashboard</h1>
         <div style="display:grid; grid-template-columns: repeat(3,1fr);gap: 12px;margin-bottom: 20px;">
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
                 <div style="opacity: .8; font-size: 13px; margin-bottom: 8px;">📦 Total Productos</div>
@@ -92,17 +40,6 @@ export function renderDashboardPage(root){
                 <h3 style="margin: 0 0 12px 0; color: #333; border-bottom: 3px solid #667eea; padding-bottom: 8px;">📈 Gráfico Ventas</h3>
                 <canvas id="salesChart" width="420" height="260" style="width: 100%; max-width: 520px;"></canvas>
             </div>
-        </div>
-
-        <h2 style="margin-top: 30px; margin-bottom: 15px; color: #333;">🖼️ Galería de Imágenes</h2>
-        <div class="dashboard-buttons" style="margin-bottom: 15px;">
-            <button class="gallery-btn" data-category="video" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">🎬 Vídeo</button>
-            <button class="gallery-btn" data-category="fotografia" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">📷 Fotografía</button>
-            <button class="gallery-btn" data-category="mosaico" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">🎨 Mosaico</button>
-            <button class="gallery-btn" data-category="bautizos" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">👶 Bautizos</button>
-        </div>
-        <div id="gallery-container" class="gallery-container" style="background: #f5f5f5; border-radius: 10px; padding: 20px; min-height: 400px; display: flex; align-items: center; justify-content: center;">
-            <p style="color: #999; font-size: 16px;">Selecciona una categoría para ver las imágenes</p>
         </div>
     `;
 
@@ -132,15 +69,6 @@ export function renderDashboardPage(root){
 
     // Dibujar gráfico
     drawBarChart(root.querySelector("#salesChart"), top)
-
-    // Añadir eventos a los botones de galería
-    const buttons = root.querySelectorAll('.gallery-btn');
-    buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const category = e.target.getAttribute('data-category');
-            renderGallery(root, category);
-        });
-    });
 }
 
 function drawBarChart(canvas, top) {
