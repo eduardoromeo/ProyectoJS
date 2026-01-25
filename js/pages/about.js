@@ -10,16 +10,6 @@ export function renderAboutPage(root){
             <p>Todo comenzó en 2010, cuando un grupo de visionarios decidió unir fuerzas para ofrecer servicios audiovisuales de alta calidad en un mercado que demandaba innovación. Desde entonces, hemos trabajado en cientos de proyectos, desde bodas íntimas hasta eventos corporativos masivos, siempre priorizando la excelencia y la creatividad. Nuestro compromiso con la calidad nos ha permitido evolucionar con las tendencias, incorporando las últimas herramientas y técnicas para garantizar resultados que superan las expectativas.</p>
         </div>
         
-        <h2>Misión</h2>
-        <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
-            <p>Nuestra misión es proporcionar servicios audiovisuales excepcionales que capturen la esencia de cada momento, ayudando a nuestros clientes a crear recuerdos duraderos y comunicar sus mensajes de manera impactante. Nos comprometemos a innovar constantemente, mantener los más altos estándares de calidad y fomentar relaciones sólidas con nuestros clientes.</p>
-        </div>
-        
-        <h2>Visión</h2>
-        <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
-            <p>Ser la empresa líder en producciones audiovisuales a nivel nacional e internacional, reconocida por nuestra creatividad, tecnología avanzada y capacidad para transformar ideas en experiencias inolvidables. Aspiramos a expandir nuestro alcance, inspirar a la industria y contribuir al crecimiento de nuestros clientes a través de soluciones audiovisuales innovadoras.</p>
-        </div>
-        
         <h2>¿Por Qué Elegirnos?</h2>
         <div style="border-left: 5px solid red; padding-left: 15px; margin-bottom: 20px;">
             <ul>
